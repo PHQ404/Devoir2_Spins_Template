@@ -2,7 +2,7 @@ import scipy.sparse as sparse
 
 
 class Heisenberg:
-    r"""Object to define a 1D spins chain system based on Heisenberg model.
+    r"""Class defining a 1D spins chain system based on Heisenberg model.
 
     :param n: The number of spins in the periodic chain.
     :type n: int
@@ -14,8 +14,8 @@ class Heisenberg:
     :ivar _hamiltonian: The Hamiltonian of the system.
     :ivar _ground_state: The ground state of the system (E0).
     :ivar _excited_state: The excited state of the system (E1).
-
     """
+
     def __init__(self, n: int, j: float = 1.0):
         """
         Constructor of the class.
@@ -32,14 +32,14 @@ class Heisenberg:
         self._excited_state = None
 
     @property
-    def hamiltonian(self) -> sparse:
+    def hamiltonian(self) -> sparse.spmatrix:
         """
         The Hamiltonian of the system.
 
         :Note: If the Hamiltonian is not computed yet, it will be computed and stored.
 
         :return: The Hamiltonian of the system.
-        :rtype: sparse
+        :rtype: sparse.spmatrix
         """
         if self._hamiltonian is None:
             self._hamiltonian = self._build_hamiltonian()
@@ -73,12 +73,12 @@ class Heisenberg:
             self._excited_state = self._compute_excited_state()
         return self._excited_state
 
-    def _build_hamiltonian(self) -> sparse:
+    def _build_hamiltonian(self) -> sparse.spmatrix:
         """
         Build the Hamiltonian of the system.
 
         :return: The Hamiltonian of the system.
-        :rtype: sparse
+        :rtype: sparse.spmatrix
         """
         raise NotImplementedError("This function is not implemented yet.")
 
@@ -99,4 +99,3 @@ class Heisenberg:
         :rtype: float
         """
         raise NotImplementedError("This function is not implemented yet.")
-

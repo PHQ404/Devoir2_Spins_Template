@@ -1,5 +1,6 @@
-import pytest
 import numpy as np
+import pytest
+
 from src.hamiltonian import Heisenberg
 from src.utils import to_dense
 
@@ -8,14 +9,22 @@ from src.utils import to_dense
     "n, j, h",
     [
         (
-            3, j, j/4*np.array([[3, 0, 0, 0, 0, 0, 0, 0],
-                               [0, -1, 2, 0, 2, 0, 0, 0],
-                               [0, 2, -1, 0, 2, 0, 0, 0],
-                               [0, 0, 0, -1, 0, 2, 2, 0],
-                               [0, 2, 2, 0, -1, 0, 0, 0],
-                               [0, 0, 0, 2, 0, -1, 2, 0],
-                               [0, 0, 0, 2, 0, 2, -1, 0],
-                               [0, 0, 0, 0, 0, 0, 0, 3]])
+            3,
+            j,
+            j
+            / 4
+            * np.array(
+                [
+                    [3, 0, 0, 0, 0, 0, 0, 0],
+                    [0, -1, 2, 0, 2, 0, 0, 0],
+                    [0, 2, -1, 0, 2, 0, 0, 0],
+                    [0, 0, 0, -1, 0, 2, 2, 0],
+                    [0, 2, 2, 0, -1, 0, 0, 0],
+                    [0, 0, 0, 2, 0, -1, 2, 0],
+                    [0, 0, 0, 2, 0, 2, -1, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 3],
+                ]
+            ),
         )
         for j in [1, 2, 3]
     ],
@@ -28,11 +37,7 @@ def test_hamiltonian(n, j, h):
 
 @pytest.mark.parametrize(
     "n, j",
-    [
-        (n, j)
-        for j in [1, 2, 3]
-        for n in [2, 3, 4]
-    ],
+    [(n, j) for j in [1, 2, 3] for n in [2, 3, 4]],
 )
 def test_real_hamiltonian(n, j):
     model = Heisenberg(n, j)

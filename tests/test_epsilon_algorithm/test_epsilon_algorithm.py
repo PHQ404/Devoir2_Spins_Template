@@ -1,5 +1,6 @@
-import pytest
 import numpy as np
+import pytest
+
 from src.epsilon_algorithm import epsilon_algorithm
 from src.series import gregory_series, pi_gregory_series
 
@@ -9,7 +10,9 @@ from src.series import gregory_series, pi_gregory_series
     [
         (x, n)
         for x in np.linspace(0.5, 1, num=10)
-        for n in [16, ]
+        for n in [
+            16,
+        ]
     ],
 )
 def test_estimation_of_gregory_series(x, n):
@@ -20,7 +23,8 @@ def test_estimation_of_gregory_series(x, n):
 
 
 @pytest.mark.parametrize(
-    "n", [8, 16, 32, 512],
+    "n",
+    [8, 16, 32, 512],
 )
 def test_estimation_of_pi_gregory_series(n):
     series = pi_gregory_series(n)

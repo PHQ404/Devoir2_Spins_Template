@@ -18,9 +18,9 @@ def gregory_series(x: float, n: int) -> np.ndarray:
     :rtype: np.ndarray
     """
     indexes = np.arange(n)
-    signs = (-1)**indexes
+    signs = (-1) ** indexes
     denominator = 2 * indexes + 1
-    numerator = signs * (x ** denominator)
+    numerator = signs * (x**denominator)
     return numerator / denominator
 
 

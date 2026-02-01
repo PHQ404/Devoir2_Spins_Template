@@ -1,8 +1,9 @@
 import numpy as np
-from .epsilon_algorithm import epsilon_algorithm
 
 
-def estimate_ground_state_ratio(energies: np.ndarray, spin_numbers: np.ndarray) -> float:
+def estimate_ground_state_ratio(
+    energies: np.ndarray, spin_numbers: np.ndarray
+) -> float:
     """Estimates the ground state ratio of a given system.
 
     The ground state ratio is given by:
@@ -22,10 +23,12 @@ def estimate_ground_state_ratio(energies: np.ndarray, spin_numbers: np.ndarray) 
     raise NotImplementedError("This function is not implemented yet.")
 
 
-def estimate_ground_delta_energy(ground_energies: np.ndarray, excited_energies: np.ndarray) -> float:
-    """Estimates the ground state energy difference of a given system.
+def estimate_excitation_gap(
+    ground_energies: np.ndarray, excited_energies: np.ndarray
+) -> float:
+    """Estimates the excitation gap of a given system.
 
-    The ground state energy difference is given by:
+    The excitation gap is given by:
 
     .. math::
         E_1 - E_0
@@ -40,8 +43,3 @@ def estimate_ground_delta_energy(ground_energies: np.ndarray, excited_energies: 
     :rtype: float
     """
     raise NotImplementedError("This function is not implemented yet.")
-
-
-
-
-
