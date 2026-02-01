@@ -1,15 +1,12 @@
-import pytest
 import numpy as np
+import pytest
+
 from src.series import gregory_series, pi_gregory_series
 
 
 @pytest.mark.parametrize(
     "x, n",
-    [
-        (x, n)
-        for x in np.linspace(-1, 1, num=10)
-        for n in [512, 1024, 2048]
-    ],
+    [(x, n) for x in np.linspace(-1, 1, num=10) for n in [512, 1024, 2048]],
 )
 def test_gregory_series(x, n):
     series = gregory_series(x, n)
@@ -19,7 +16,8 @@ def test_gregory_series(x, n):
 
 
 @pytest.mark.parametrize(
-    "n", [512, 1024, 2048],
+    "n",
+    [512, 1024, 2048],
 )
 def test_pi_gregory_series_sum(n):
     series = pi_gregory_series(n)

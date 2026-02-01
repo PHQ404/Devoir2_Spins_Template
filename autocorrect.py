@@ -32,10 +32,10 @@ def get_report_from_url(
             local_repo_tmp_dirname="tmp_master_repo",
         )
     default_weights = {
-        tac.Tester.PEP8_KEY: 10.0,
-        tac.Tester.PERCENT_PASSED_KEY: 20.0,
+        tac.Tester.PEP8_KEY: 20.0,
         tac.Tester.CODE_COVERAGE_KEY: 20.0,
-        tac.Tester.MASTER_PERCENT_PASSED_KEY: 50.0,
+        tac.Tester.PERCENT_PASSED_KEY: 20.0,
+        tac.Tester.MASTER_PERCENT_PASSED_KEY: 40.0,
     }
     if weights is None:
         weights = {}
@@ -69,7 +69,7 @@ def get_grade_report():
     new_report = tac.Report(
         data=report.data,
         grade_min=base_grade,
-        grade_min_value=50.0,
+        grade_min_value=25.0,
         grade_max=100.0,
         report_filepath=os.path.join(os.path.dirname(__file__), "grade_report.json"),
     )
