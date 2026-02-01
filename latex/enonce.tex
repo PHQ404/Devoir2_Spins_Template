@@ -1,0 +1,156 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{physics}
+\usepackage[french]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tcolorbox}
+
+\begin{document}
+
+\title{Devoir 2 : Chaînes de spin quantiques}
+\author{PHQ404}
+\date{Remise : -}
+\maketitle
+
+\section{Objectif}\label{sec:objectif}
+
+\noindent L'objectif de ce devoir est de déterminer le gap d'excitation dans une chaîne de spins en interaction selon le modèle
+de Heisenberg (voir la section 8D des notes de cours de David Sénéchal).
+
+\section{Construction du hamiltonien}\label{subsec:construction-du-hamiltonien}
+
+\noindent Nous considérons le hamiltonien du modèle de Heisenberg pour une chaine périodique de
+$N$ spins $1/2$ définie par l'équation
+\begin{equation}
+	H_N = J \sum_{k=0}^{N-1} \vb{S_k} \cdot \vb{S_{k+1}}.
+\end{equation}
+où $J$ est la constante de couplage et $\vb{S}_{k} = (S_{k}^{x}, S_{k}^{y}, S_{k}^{z})$ est le spin associé à l'atome $k$.
+Comme la chaine est périodique, nous avons que $\vb{S_N} = \vb{S_0}$.
+La première tâche est d'implémenter une fonction qui permet de construire
+ce hamiltonien selon le nombre de spins $N$ et la constante de couplage $J$.
+La matrice représentant le hamiltonien doit être creuse.
+Vous devez utiliser le module \texttt{sparse} de la bibliothèque \texttt{scipy}
+pour la construire.
+Notez que pour $N > 2$, le hamiltonien peut être construit à partir de $H_2$.
+Par exemple, nous avons
+\begin{equation}
+	H_3 = H_2 \otimes I_{2} + I_{2} \otimes H_2 + J\sum_{p \in \qty{X, Y, Z}} S^p \otimes I_{2} \otimes S^p,
+\end{equation}
+avec $I_{2}$ la matrice identité de dimension 2.
+Finalement, bien que les matrices de Pauli soient complexes,
+le hamiltonien est réel.
+Ainsi, la matrice retournée par votre fonction doit contenir des nombres
+réels (\texttt{float}).
+
+\bigskip
+
+\noindent Voir le fichier \texttt{hamiltonian.py} et \texttt{utils.py}.
+
+\section{Vérification du hamiltonien}\label{subsec:verification-du-hamiltonien}
+
+\noindent Il est important de vérifer votre implémentation avec des tests unitaires.
+Vous pouvez, par exemple, calculer à la main la matrice du hamiltonien pour
+$N = 3$ et un $J$ de votre choix et de comparer cette dernière à celle retournée par
+votre fonction.
+Le résultat de votre calcul doit se retrouver dans votre rapport et dans vos tests unitaires.
+
+\bigskip
+
+\noindent Voir le fichier \texttt{test\_hamiltonian.py}.
+
+\section{Calcul du gap d'excitation}\label{subsec:calculs-des-basses-energies}
+
+\noindent Vous devez implémenter une fonction qui permet d'obtenir les énergies de l'état fondamental
+$E_0$ et du premier état excité $E_1$ à l'aide de la bibliothèque \texttt{scipy}.
+Vous devez aussi calculer l'énergie fondamentale en fonction du nombre de spins $E_{0}/N$ ainsi que le gap d'excitation, c'est-à-dire la différence d'énergie entre le premier état excité et l'état fondamentale $\Delta = E_{1} - E_{0}$.
+Ensuite, calculer ces quantités pour $N$ allant de 2 à 20 inclusivement.
+Faites les calculs en fixant la constant de couplage $J = 1$.
+Comme le calcul peut prendre un certain temps, il est suggéré de
+sauvegarder vos résultats intermédiaires.
+Cela peut se faire à l'aide de la bibliothèque \texttt{numpy},
+de la bibliothèque \texttt{pandas} ou manuellement.
+
+\bigskip
+
+\noindent Voir le fichier \texttt{hamiltonian.py} et \texttt{physical-quantities.py}.
+
+\section{Implémentation de l'algorithme epsilon}\label{subsec:algorithme-epsilon}
+
+\noindent Vous devez ici implémenter l'algorithme epsilon. Pour ce faire, vous devez écrire une fonction qui prend en entrée
+une suite de valeurs $S_{n}$ $(n=0,1,2, \cdots, N)$ sous la forme d'un vecteur et qui
+retourne une estimation de la convergence de la série à l'aide de l'algorithme epsilon.
+L'algorithme est décrit à la section 8D.5 des notes de David Sénéchal.
+
+\bigskip
+
+\noindent Voir le fichier \texttt{epsilon\_algorithm.py}.
+
+\section{Vérification de l'algorithme espsilon}\label{subsec:verification-de-l'algorithme-espsilon}
+
+\noindent La série de Gregory pour la fonction $\arctan (x)$ lorsque $x=1$ est donnée par
+\begin{equation}
+	\pi = 4 \qty(1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \frac{1}{9} - \ldots) \,.
+\end{equation}
+Celle-ci permet ainsi d'évaluer d'évaluer la constante $\frac{\pi}{4}$.
+Vérifiez que votre implémentation de l'algorithme epsilon appliquée à
+cette série permet bel et bien d'approximer $\frac{\pi}{4}$.
+Essayez avec un nombre variable de termes pour mesurer la qualité de l'approximation.
+Ajouter vos tests unitaires dans le fichier \texttt{test\_epsilon.py}.
+
+\bigskip
+
+\noindent Voir le fichier \texttt{series.py} et \texttt{test\_epsilon\_algorithm.py}.
+
+\section{Extrapolation vers $N \to \infty$}\label{subsec:extrapolation-vers-n-to-infty}
+
+\noindent Vous devez utiliser l'algorithme epsilon
+pour estimer la valeur de $E_0 / N$ et de $\Delta = E_1 - E_0$ lorsque $N \to \infty$.
+Vous devez comparer l'extrapolation en utilisant tous les points (tous les $N$),
+seulement les points pour $N$ pair (les $N$ pairs) et seulement les points pour $N$ impair (les $N$ impairs).
+Faites ensuite un graphique pour chaque quantité avec les valeurs calculées
+et un trait horizontal pour chacune des trois méthodes d'extrapolation.\\
+
+\begin{tcolorbox}[]
+	Toutes les fonctions qui doivent être implémentées sont déjà définies dans les fichiers
+	et retournent des \texttt{NotImplementedError}.
+\end{tcolorbox}
+
+\begin{tcolorbox}[]
+	Des exemples de vérification sont fournis, mais il vous appartient d’ajouter un nombre suffisant de tests unitaires pertinents ainsi que des tests de validation scientifique afin d’obtenir l’ensemble des points.
+\end{tcolorbox}
+
+\section{Évaluation}\label{sec:evaluation}
+
+\begin{tabular}{l l c}
+	\toprule
+	\textbf{Catégorie} & \textbf{Critère d’évaluation}              & \textbf{Pondération} \\
+	\midrule
+	\multirow{6}{*}{Code (60\%)}
+	                   & Qualité du code (pylint)                   & 10\%                 \\
+	                   & Couverture de tests (codecov)              & 10\%                 \\
+	                   & Tests publics (pytest)                     & 10\%                 \\
+	                   & Tests cachés (pytest)                      & 20\%                 \\
+	                   & Documentation, docstrings et typage        & 5\%                  \\
+	                   & README, reproductibilité et historique Git & 5\%                  \\
+	\midrule
+	\multirow{9}{*}{Rapport (40\%)}
+	                   & Résumé                                     & 3\%                  \\
+	                   & Introduction                               & 3\%                  \\
+	                   & Théorie                                    & 6\%                  \\
+	                   & Résultats                                  & 6\%                  \\
+	                   & Discussion                                 & 6\%                  \\
+	                   & Conclusion                                 & 3\%                  \\
+	                   & Références                                 & 3\%                  \\
+	                   & Vérification des résults                   & 5\%                  \\
+	                   & Présentation                               & 5\%                  \\
+	\bottomrule
+\end{tabular}
+
+\end{document}
